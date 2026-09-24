@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplikasi Input Data Laboratorium PKS</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            navy: {
+              50: '#f0f4f9',
+              100: '#dbe5f2',
+              600: '#1e40af',
+              700: '#1d4ed8',
+              800: '#1e3a8a',
+              900: '#0f172a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+    }
+    .card-shadow {
+      box-shadow: 0 4px 20px -2px rgba(30, 58, 138, 0.08);
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+    .custom-input {
+      transition: all 0.2s ease-in-out;
+    }
+    .custom-input:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+    .read-only-avg {
+      background-color: #eff6ff;
+      border-color: #bfdbfe;
+      color: #1e40af;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800 flex flex-col justify-between">
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 w-full">
+    <header class="bg-gradient-to-r from-navy-900 via-navy-800 to-blue-900 text-white rounded-2xl shadow-lg border-b-4 border-blue-600 overflow-hidden">
+      <div class="px-6 py-5 flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <div class="bg-blue-600/90 p-3 rounded-xl text-white shadow-inner flex items-center justify-center">
+            <i class="fa-solid fa-flask-vial text-2xl sm:text-3xl"></i>
+          </div>
+          <div>
+            <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-white">Sistem Laboratorium PKS</h1>
+            <p class="text-xs sm:text-sm text-blue-200 mt-0.5">Input Data Operasional & Quality Control Pabrik Kelapa Sawit Borneo Indah Marjaya</p>
+          </div>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-grow">
+    
+    <form id="pksForm" class="space-y-6">
+
+      <!-- Section 1: Data Oil & Press -->
+      <div class="bg-white rounded-xl border border-slate-200 card-shadow overflow-hidden">
+        <div class="bg-gradient-to-r from-navy-800 to-blue-800 px-6 py-4 text-white flex items-center justify-between">
+          <h2 class="text-lg font-semibold flex items-center gap-2">
+            <i class="fa-solid fa-droplet text-blue-300"></i>
+            1. Data Oil & Press
+          </h2>
+          <span class="text-xs bg-blue-900/60 px-2.5 py-1 rounded-full text-blue-200">Stasiun Press</span>
+        </div>
+
+        <div class="p-6 space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Oil Tankos (%)</label>
+              <input type="number" step="any" id="oilTankos" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">USB (%)</label>
+              <input type="number" step="any" id="usb" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+          </div>
+
+          <!-- ODB Press 1 to 5 -->
+          <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <div class="flex justify-between items-center mb-2">
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600">ODB Press No. 1 - 5 (%)</label>
+              <span class="text-xs text-blue-600 font-medium">Auto Average</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+              <div>
+                <span class="text-xs text-slate-500 block mb-1">Press 1</span>
+                <input type="number" step="any" id="odbPress1" class="odb-press-input w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white" placeholder="0.00">
+              </div>
+              <div>
+                <span class="text-xs text-slate-500 block mb-1">Press 2</span>
+                <input type="number" step="any" id="odbPress2" class="odb-press-input w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white" placeholder="0.00">
+              </div>
+              <div>
+                <span class="text-xs text-slate-500 block mb-1">Press 3</span>
+                <input type="number" step="any" id="odbPress3" class="odb-press-input w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white" placeholder="0.00">
+              </div>
+              <div>
+                <span class="text-xs text-slate-500 block mb-1">Press 4</span>
+                <input type="number" step="any" id="odbPress4" class="odb-press-input w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white" placeholder="0.00">
+              </div>
+              <div>
+                <span class="text-xs text-slate-500 block mb-1">Press 5</span>
+                <input type="number" step="any" id="odbPress5" class="odb-press-input w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white" placeholder="0.00">
+              </div>
+            </div>
+            <div class="mt-3 pt-3 border-t border-slate-200 flex items-center justify-between">
+              <label class="text-sm font-semibold text-slate-700">ODB Rata - Rata (%)</label>
+              <input type="number" step="any" id="odbRataRata" readonly class="w-36 px-3 py-1.5 border rounded-lg text-sm text-right read-only-avg" placeholder="0.00">
+            </div>
+          </div>
+
+          <!-- OWB Press 1 to 5 -->
+          <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <div class="flex justify-between items-center mb-2">
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600">OWB Press No. 1 - 5 (%)</label>
+              <span class="text-xs text-blue-600 font-medium">Auto Average</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+              <div>
+                <span class="text-xs text-slate-500 block mb-1">Press 1</span>
+                <input type="number" step="any" id="owbPress1" class="owb-press-input w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white" placeholder="0.00">
+              </div>
+              <div>
+                <span class="text-xs text-slate-500 block mb-1">Press 2</span>
+                <input type="number" step="any" id="owbPress2" class="owb-press-input w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white" placeholder="0.00">
+              </div>
+              <div>
+                <span class="text-xs text-slate-500 block mb-1">Press 3</span>
+                <input type="number" step="any" id="owbPress3" class="owb-press-input w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white" placeholder="0.00">
+              </div>
+              <div>
+                <span class="text-xs text-slate-500 block mb-1">Press 4</span>
+                <input type="number" step="any" id="owbPress4" class="owb-press-input w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white" placeholder="0.00">
+              </div>
+              <div>
+                <span class="text-xs text-slate-500 block mb-1">Press 5</span>
+                <input type="number" step="any" id="owbPress5" class="owb-press-input w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white" placeholder="0.00">
+              </div>
+            </div>
+            <div class="mt-3 pt-3 border-t border-slate-200 flex items-center justify-between">
+              <label class="text-sm font-semibold text-slate-700">OWB Rata - Rata (%)</label>
+              <input type="number" step="any" id="owbRataRata" readonly class="w-36 px-3 py-1.5 border rounded-lg text-sm text-right read-only-avg" placeholder="0.00">
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl border border-slate-200 card-shadow overflow-hidden">
+        <div class="bg-gradient-to-r from-navy-800 to-blue-800 px-6 py-4 text-white flex items-center justify-between">
+          <h2 class="text-lg font-semibold flex items-center gap-2">
+            <i class="fa-solid fa-filter text-blue-300"></i>
+            2. Process & Sludge
+          </h2>
+          <span class="text-xs bg-blue-900/60 px-2.5 py-1 rounded-full text-blue-200">Klarifikasi & Limbah</span>
+        </div>
+
+        <div class="p-6 space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Oil Wet Nut (%)</label>
+              <input type="number" step="any" id="oilWetNut" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">OWB Condensate (%)</label>
+              <input type="number" step="any" id="owbCondensate" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">ODB Condensate (%)</label>
+              <input type="number" step="any" id="odbCondensate" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Under Flow Moisture (%)</label>
+              <input type="number" step="any" id="underFlowMoisture" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Underflow OWB (%)</label>
+              <input type="number" step="any" id="underflowOwb" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+          </div>
+
+          <!-- OWB Separator 1 to 6 -->
+          <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <div class="flex justify-between items-center mb-2">
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600">OWB Separator No. 1 - 6 (%)</label>
+              <span class="text-xs text-blue-600 font-medium">Auto Average</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-6 gap-3">
+              <div>
+                <span class="text-xs text-slate-500 block mb-1">Sep 1</span>
+                <input type="number" step="any" id="owbSeparator1" class="owb-sep-input w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white" placeholder="0.00">
+              </div>
+              <div>
+                <span class="text-xs text-slate-500 block mb-1">Sep 2</span>
+                <input type="number" step="any" id="owbSeparator2" class="owb-sep-input w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white" placeholder="0.00">
+              </div>
+              <div>
+                <span class="text-xs text-slate-500 block mb-1">Sep 3</span>
+                <input type="number" step="any" id="owbSeparator3" class="owb-sep-input w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white" placeholder="0.00">
+              </div>
+              <div>
+                <span class="text-xs text-slate-500 block mb-1">Sep 4</span>
+                <input type="number" step="any" id="owbSeparator4" class="owb-sep-input w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white" placeholder="0.00">
+              </div>
+              <div>
+                <span class="text-xs text-slate-500 block mb-1">Sep 5</span>
+                <input type="number" step="any" id="owbSeparator5" class="owb-sep-input w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white" placeholder="0.00">
+              </div>
+              <div>
+                <span class="text-xs text-slate-500 block mb-1">Sep 6</span>
+                <input type="number" step="any" id="owbSeparator6" class="owb-sep-input w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white" placeholder="0.00">
+              </div>
+            </div>
+            <div class="mt-3 pt-3 border-t border-slate-200 flex items-center justify-between">
+              <label class="text-sm font-semibold text-slate-700">Rata - Rata OWB Separator (%)</label>
+              <input type="number" step="any" id="rataRataOwbSeparator" readonly class="w-36 px-3 py-1.5 border rounded-lg text-sm text-right read-only-avg" placeholder="0.00">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">OWB Sludge Pit (%)</label>
+              <input type="number" step="any" id="owbSludgePit" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">ODB Sludge Pit (%)</label>
+              <input type="number" step="any" id="odbSludgePit" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl border border-slate-200 card-shadow overflow-hidden">
+        <div class="bg-gradient-to-r from-navy-800 to-blue-800 px-6 py-4 text-white flex items-center justify-between">
+          <h2 class="text-lg font-semibold flex items-center gap-2">
+            <i class="fa-solid fa-vial-circle-check text-blue-300"></i>
+            3. Mutu CPO Produksi
+          </h2>
+          <span class="text-xs bg-blue-900/60 px-2.5 py-1 rounded-full text-blue-200">Kualitas Produksi</span>
+        </div>
+
+        <div class="p-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">FFA CPO (%)</label>
+              <input type="number" step="any" id="ffaCpoProduksi" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Moisture CPO (%)</label>
+              <input type="number" step="any" id="moistureCpoProduksi" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Dirt CPO (%)</label>
+              <input type="number" step="any" id="dirtCpoProduksi" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">DOBI CPO</label>
+              <input type="number" step="any" id="dobiCpoProduksi" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Carotin CPO (ppm)</label>
+              <input type="number" step="any" id="carotinCpoProduksi" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl border border-slate-200 card-shadow overflow-hidden">
+        <div class="bg-gradient-to-r from-navy-800 to-blue-800 px-6 py-4 text-white flex items-center justify-between">
+          <h2 class="text-lg font-semibold flex items-center gap-2">
+            <i class="fa-solid fa-gear text-blue-300"></i>
+            4. Nut & Kernel Station
+          </h2>
+          <span class="text-xs bg-blue-900/60 px-2.5 py-1 rounded-full text-blue-200">Stasiun Nut & Kernel</span>
+        </div>
+
+        <div class="p-6 space-y-6">
+          <!-- Effisiensi Ripple Mill 1 to 5 -->
+          <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2">Efisiensi Ripple Mill No. 1 - 5 (%)</label>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+              <div>
+                <span class="text-xs text-slate-500 block mb-1">Mill 1</span>
+                <input type="number" step="any" id="effRippleMill1" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white" placeholder="0.00">
+              </div>
+              <div>
+                <span class="text-xs text-slate-500 block mb-1">Mill 2</span>
+                <input type="number" step="any" id="effRippleMill2" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white" placeholder="0.00">
+              </div>
+              <div>
+                <span class="text-xs text-slate-500 block mb-1">Mill 3</span>
+                <input type="number" step="any" id="effRippleMill3" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white" placeholder="0.00">
+              </div>
+              <div>
+                <span class="text-xs text-slate-500 block mb-1">Mill 4</span>
+                <input type="number" step="any" id="effRippleMill4" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white" placeholder="0.00">
+              </div>
+              <div>
+                <span class="text-xs text-slate-500 block mb-1">Mill 5</span>
+                <input type="number" step="any" id="effRippleMill5" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white" placeholder="0.00">
+              </div>
+            </div>
+          </div>
+
+          <!-- Kernel Metrics -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Broken Kernel (%)</label>
+              <input type="number" step="any" id="brokenKernel" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Fiber Cyclon Losses (%)</label>
+              <input type="number" step="any" id="fiberCyclonLosses" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">LTDS 1 Losses (%)</label>
+              <input type="number" step="any" id="ltds1Losses" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">LTDS 2 Losses (%)</label>
+              <input type="number" step="any" id="ltds2Losses" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Shell HDC Losses (%)</label>
+              <input type="number" step="any" id="shellHdcLosses" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Dirt Kernel LTDS 1 (%)</label>
+              <input type="number" step="any" id="dirtKernelLtds1" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Dirt Kernel LTDS 2 (%)</label>
+              <input type="number" step="any" id="dirtKernelLtds2" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Dirt HDC (%)</label>
+              <input type="number" step="any" id="dirtHdc" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Dirt Gabungan (%)</label>
+              <input type="number" step="any" id="dirtGabungan" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Dirt Kernel Produksi (%)</label>
+              <input type="number" step="any" id="dirtKernelProduksi" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Moisture Kernel Produksi (%)</label>
+              <input type="number" step="any" id="moistureKernelProduksi" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Kernel Pecah (%)</label>
+              <input type="number" step="any" id="kernelPecah" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl border border-slate-200 card-shadow overflow-hidden">
+        <div class="bg-gradient-to-r from-navy-800 to-blue-800 px-6 py-4 text-white flex items-center justify-between">
+          <h2 class="text-lg font-semibold flex items-center gap-2">
+            <i class="fa-solid fa-chart-line text-blue-300"></i>
+            5. Total Losses
+          </h2>
+          <span class="text-xs bg-blue-900/60 px-2.5 py-1 rounded-full text-blue-200">Rangkuman Kehilangan</span>
+        </div>
+
+        <div class="p-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-red-50/50 p-4 rounded-lg border border-red-100">
+              <label class="block text-sm font-semibold text-slate-700 mb-1">Abs Oil Losses (%)</label>
+              <input type="number" step="any" id="absOilLosses" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white">
+            </div>
+            <div class="bg-red-50/50 p-4 rounded-lg border border-red-100">
+              <label class="block text-sm font-semibold text-slate-700 mb-1">Abs Kernel Losses (%)</label>
+              <input type="number" step="any" id="absKernelLosses" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm custom-input bg-white">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Action Button -->
+      <div class="pt-2 flex flex-col sm:flex-row items-center justify-end gap-4">
+        <button type="button" id="btnReset" class="w-full sm:w-auto px-6 py-3 border border-slate-300 rounded-xl text-slate-600 font-medium hover:bg-slate-100 transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-rotate-left"></i>
+          <span>Reset Form</span>
+        </button>
+        <button type="submit" id="btnSubmit" class="w-full sm:w-auto px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg shadow-blue-500/30 transition transform active:scale-95 flex items-center justify-center gap-2">
+          <i class="fa-solid fa-paper-plane"></i>
+          <span>KIRIM DATA LABORATORIUM</span>
+        </button>
+      </div>
+
+    </form>
+  </main>
+
+  <div id="toast" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 ease-in-out bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl flex items-center space-x-3 z-50 border border-slate-700">
+    <div id="toastIcon" class="text-emerald-400">
+      <i class="fa-solid fa-circle-check text-xl"></i>
+    </div>
+    <div id="toastMessage" class="text-sm font-medium">
+      Data berhasil disimpan!
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-navy-900 text-slate-400 py-6 border-t border-slate-800 mt-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-3">
+      <div class="flex items-center space-x-2 text-xs">
+        <span>&copy; 2026 Sistem Informasi PKS</span>
+        <span>&bull;</span>
+        <span class="text-slate-300">Versi 2.4.0 Supriyanto</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+  <script>
+    // Global Firebase state
+    let firebaseInitialized = false;
+    let database = null;
+
+    // Firebase Config (project: pabrik-bim)
+    const firebaseConfig = {
+      apiKey: "AIzaSyCxP2h9o8iT5ld-CbHIK30KacqsIgCRie0",
+      authDomain: "pabrik-bim.firebaseapp.com",
+      databaseURL: "https://pabrik-bim-default-rtdb.firebaseio.com",
+      projectId: "pabrik-bim",
+      storageBucket: "pabrik-bim.firebasestorage.app",
+      messagingSenderId: "549506032191",
+      appId: "1:549506032191:web:348460662747193f238e8a",
+      measurementId: "G-1EBW61HCPM"
+    };
+
+    // Auto-initialize Firebase if configured
+    try {
+      if (firebaseConfig.apiKey && firebaseConfig.apiKey !== "YOUR_API_KEY") {
+        firebase.initializeApp(firebaseConfig);
+        database = firebase.database();
+        firebaseInitialized = true;
+      }
+    } catch (e) {
+      console.warn('Firebase connection standby:', e);
+      firebaseInitialized = false;
+    }
+
+    // Auto Average Helper function
+    function setupAutoAverage(inputClass, resultId) {
+      const inputs = document.querySelectorAll('.' + inputClass);
+      const resultElem = document.getElementById(resultId);
+
+      function calculate() {
+        let sum = 0;
+        let count = 0;
+        inputs.forEach(input => {
+          const val = parseFloat(input.value);
+          if (!isNaN(val) && val > 0) {
+            sum += val;
+            count++;
+          }
+        });
+        const avg = count > 0 ? (sum / count).toFixed(2) : '0.00';
+        resultElem.value = avg;
+      }
+
+      inputs.forEach(input => {
+        input.addEventListener('input', calculate);
+      });
+    }
+
+    // Initialize Auto-Averages
+    setupAutoAverage('odb-press-input', 'odbRataRata');
+    setupAutoAverage('owb-press-input', 'owbRataRata');
+    setupAutoAverage('owb-sep-input', 'rataRataOwbSeparator');
+
+    // Toast Notification Display
+    function showToast(message, isError = false) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMessage');
+      const toastIcon = document.getElementById('toastIcon');
+
+      toastMsg.innerText = message;
+      if (isError) {
+        toastIcon.className = 'text-red-400';
+        toastIcon.innerHTML = '<i class="fa-solid fa-circle-exclamation text-xl"></i>';
+      } else {
+        toastIcon.className = 'text-emerald-400';
+        toastIcon.innerHTML = '<i class="fa-solid fa-circle-check text-xl"></i>';
+      }
+
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 4000);
+    }
+
+    // Safely parse number value from input
+    const num = id => parseFloat(document.getElementById(id)?.value) || 0;
+
+    // Form Submit Listener
+    document.getElementById('pksForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const btnSubmit = document.getElementById('btnSubmit');
+      btnSubmit.disabled = true;
+      btnSubmit.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Menyimpan Data...</span>`;
+
+      // Construct JSON Data Payload
+      const payload = {
+        timestamp: new Date().toISOString(),
+        formattedDate: new Date().toLocaleString('id-ID'),
+        dataOilAndPress: {
+          oilTankos: num('oilTankos'),
+          usb: num('usb'),
+          odbPress: [num('odbPress1'), num('odbPress2'), num('odbPress3'), num('odbPress4'), num('odbPress5')],
+          odbRataRata: num('odbRataRata'),
+          owbPress: [num('owbPress1'), num('owbPress2'), num('owbPress3'), num('owbPress4'), num('owbPress5')],
+          owbRataRata: num('owbRataRata')
+        },
+        processAndSludge: {
+          oilWetNut: num('oilWetNut'),
+          owbCondensate: num('owbCondensate'),
+          odbCondensate: num('odbCondensate'),
+          underFlowMoisture: num('underFlowMoisture'),
+          underflowOwb: num('underflowOwb'),
+          owbSeparator: [num('owbSeparator1'), num('owbSeparator2'), num('owbSeparator3'), num('owbSeparator4'), num('owbSeparator5'), num('owbSeparator6')],
+          rataRataOwbSeparator: num('rataRataOwbSeparator'),
+          owbSludgePit: num('owbSludgePit'),
+          odbSludgePit: num('odbSludgePit')
+        },
+        mutuCpoProduksi: {
+          ffa: num('ffaCpoProduksi'),
+          moisture: num('moistureCpoProduksi'),
+          dirt: num('dirtCpoProduksi'),
+          dobi: num('dobiCpoProduksi'),
+          carotin: num('carotinCpoProduksi')
+        },
+        nutAndKernelStation: {
+          effRippleMill: [num('effRippleMill1'), num('effRippleMill2'), num('effRippleMill3'), num('effRippleMill4'), num('effRippleMill5')],
+          brokenKernel: num('brokenKernel'),
+          fiberCyclonLosses: num('fiberCyclonLosses'),
+          ltds1Losses: num('ltds1Losses'),
+          ltds2Losses: num('ltds2Losses'),
+          shellHdcLosses: num('shellHdcLosses'),
+          dirtKernelLtds1: num('dirtKernelLtds1'),
+          dirtKernelLtds2: num('dirtKernelLtds2'),
+          dirtHdc: num('dirtHdc'),
+          dirtGabungan: num('dirtGabungan'),
+          dirtKernelProduksi: num('dirtKernelProduksi'),
+          moistureKernelProduksi: num('moistureKernelProduksi'),
+          kernelPecah: num('kernelPecah')
+        },
+        totalLosses: {
+          absOilLosses: num('absOilLosses'),
+          absKernelLosses: num('absKernelLosses')
+        }
+      };
+
+      const resetSubmitState = (message) => {
+        btnSubmit.disabled = false;
+        btnSubmit.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>KIRIM DATA LABORATORIUM</span>`;
+        showToast(message);
+        document.getElementById('pksForm').reset();
+        document.getElementById('odbRataRata').value = '0.00';
+        document.getElementById('owbRataRata').value = '0.00';
+        document.getElementById('rataRataOwbSeparator').value = '0.00';
+      };
+
+      if (firebaseInitialized && database) {
+        database.ref('laporan_laboratorium').push(payload)
+          .then(() => resetSubmitState('Data laboratorium berhasil dikirim!'))
+          .catch(err => {
+            btnSubmit.disabled = false;
+            btnSubmit.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>KIRIM DATA LABORATORIUM</span>`;
+            showToast('Gagal mengirim data: ' + err.message, true);
+          });
+      } else {
+        btnSubmit.disabled = false;
+        btnSubmit.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>KIRIM DATA LABORATORIUM</span>`;
+        showToast('Firebase belum terhubung. Data TIDAK tersimpan.', true);
+      }
+    });
+
+    // Reset Form Confirmation
+    document.getElementById('btnReset').onclick = () => {
+      if (confirm('Apakah Anda yakin ingin mengosongkan seluruh formulir?')) {
+        document.getElementById('pksForm').reset();
+        document.getElementById('odbRataRata').value = '0.00';
+        document.getElementById('owbRataRata').value = '0.00';
+        document.getElementById('rataRataOwbSeparator').value = '0.00';
+        showToast('Formulir berhasil direset');
+      }
+    };
+  </script>
+</body>
+</html>
